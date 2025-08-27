@@ -1,0 +1,30 @@
+{
+  "name": "kb-knowledge-retrieval",
+  "version": "1.0.0",
+  "description": "A minimal proof-of-concept knowledge base tool for document ingestion, indexing, and search",
+  "main": "dist/cli/main.js",
+  "bin": {
+    "kb": "./dist/cli/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli/main.ts",
+    "start": "node dist/cli/main.js",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["knowledge-base", "search", "indexing", "cli"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
