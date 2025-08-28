@@ -81,4 +81,3 @@ def ingest_local(
     if index:
         idx.save()
     return written
-

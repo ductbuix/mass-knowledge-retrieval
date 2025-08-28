@@ -16,7 +16,12 @@ def _normalize_file_url_or_path(s: str) -> Optional[str]:
 
         p = parse.urlparse(s)
         path = parse.unquote(p.path)
-        if os.name == "nt" and path.startswith("/") and len(path) > 3 and path[2] == ":":
+        if (
+            os.name == "nt"
+            and path.startswith("/")
+            and len(path) > 3
+            and path[2] == ":"
+        ):
             path = path.lstrip("/")
         return os.path.abspath(path)
     # Plain path
@@ -94,7 +99,9 @@ def ingest_urls(
         # Local file or path
         local_path = _normalize_file_url_or_path(line)
         if local_path:
-            p = _ingest_local_single(local_path, out_dir, index=index, data_dir=data_dir)
+            p = _ingest_local_single(
+                local_path, out_dir, index=index, data_dir=data_dir
+            )
             if p:
                 written.append(p)
             continue
@@ -124,8 +131,10 @@ def prune_missing_urls(urls_file: str, data_dir: str, ingested_base: str) -> Non
     # Build the keep set of URL identifiers
     lines = [l.strip() for l in read_text_file(urls_file).splitlines()]
     keep_urls: Set[str] = set(
-        l if (l.startswith("http://") or l.startswith("https://")) else (
-            f"file://{os.path.abspath(_normalize_file_url_or_path(l) or l)}"
+        (
+            l
+            if (l.startswith("http://") or l.startswith("https://"))
+            else (f"file://{os.path.abspath(_normalize_file_url_or_path(l) or l)}")
         )
         for l in lines
         if l and not l.startswith("#")
@@ -149,7 +158,9 @@ def prune_missing_urls(urls_file: str, data_dir: str, ingested_base: str) -> Non
         path = meta.get("path")
         # Remove file if inside the ingested base directory
         try:
-            if path and os.path.commonpath([os.path.abspath(path), os.path.abspath(ingested_base)]) == os.path.abspath(ingested_base):
+            if path and os.path.commonpath(
+                [os.path.abspath(path), os.path.abspath(ingested_base)]
+            ) == os.path.abspath(ingested_base):
                 if os.path.exists(path):
                     os.remove(path)
         except Exception:
@@ -158,4 +169,3 @@ def prune_missing_urls(urls_file: str, data_dir: str, ingested_base: str) -> Non
 
     if to_delete:
         idx.save()
-
