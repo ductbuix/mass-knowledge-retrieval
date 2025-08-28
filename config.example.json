@@ -1,0 +1,30 @@
+{
+    "data_dir": "data",
+    "ingest": {
+        "out_dir": "data/ingested",
+        "urls_file": "./urls.txt",
+        "sync_prune": true,
+        "sources": [
+            "local",
+            "confluence"
+        ],
+        "limit": 100,
+        "index": true,
+        "local": {
+            "path": "./local-data",
+            "glob": "**/*"
+        },
+        "confluence": {
+            "host": "https://your-domain.atlassian.net/wiki",
+            "email": "you@example.com",
+            "token": "<token>",
+            "auth_type": "basic",
+            "spaces": [
+                "ENG"
+            ]
+        }
+    },
+    "retrieve": {
+        "data_dir": "data"
+    }
+}

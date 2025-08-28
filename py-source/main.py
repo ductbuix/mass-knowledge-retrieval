@@ -147,13 +147,22 @@ def cmd_ingest(args: argparse.Namespace) -> None:
             urls_file=urls_file,
             out_dir=out_dir,
             data_dir=data_dir,
-            index=not args.no_index if cfg_get(cfg, "ingest.index") is None else bool(cfg_get(cfg, "ingest.index")),
+            index=(
+                not args.no_index
+                if cfg_get(cfg, "ingest.index") is None
+                else bool(cfg_get(cfg, "ingest.index"))
+            ),
             conf_email=args.conf_email or cfg_get(cfg, "ingest.confluence.email"),
             conf_token=args.conf_token or cfg_get(cfg, "ingest.confluence.token"),
-            conf_auth_type=args.conf_auth_type or cfg_get(cfg, "ingest.confluence.auth_type", "basic"),
+            conf_auth_type=args.conf_auth_type
+            or cfg_get(cfg, "ingest.confluence.auth_type", "basic"),
         )
 
-        if sync_prune and (not args.no_index if cfg_get(cfg, "ingest.index") is None else bool(cfg_get(cfg, "ingest.index"))):
+        if sync_prune and (
+            not args.no_index
+            if cfg_get(cfg, "ingest.index") is None
+            else bool(cfg_get(cfg, "ingest.index"))
+        ):
             prune_missing_urls(
                 urls_file=urls_file,
                 data_dir=data_dir,
@@ -174,7 +183,9 @@ def cmd_ingest(args: argparse.Namespace) -> None:
             root=cfg_get(cfg, "ingest.local.path") or args.local_path,
             pattern=cfg_get(cfg, "ingest.local.glob") or args.local_glob,
             out_dir=os.path.join(out_dir, "local"),
-            limit=args.limit if args.limit is not None else cfg_get(cfg, "ingest.limit"),
+            limit=(
+                args.limit if args.limit is not None else cfg_get(cfg, "ingest.limit")
+            ),
             index=not args.no_index,
             data_dir=data_dir,
         )
@@ -199,8 +210,14 @@ def cmd_ingest(args: argparse.Namespace) -> None:
             auth_type=conf_auth_type,
             spaces=conf_spaces,
             out_dir=os.path.join(out_dir, "confluence"),
-            limit=args.limit if args.limit is not None else cfg_get(cfg, "ingest.limit"),
-            index=not args.no_index if cfg_get(cfg, "ingest.index") is None else bool(cfg_get(cfg, "ingest.index")),
+            limit=(
+                args.limit if args.limit is not None else cfg_get(cfg, "ingest.limit")
+            ),
+            index=(
+                not args.no_index
+                if cfg_get(cfg, "ingest.index") is None
+                else bool(cfg_get(cfg, "ingest.index"))
+            ),
             data_dir=data_dir,
         )
 

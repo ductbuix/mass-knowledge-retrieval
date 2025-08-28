@@ -42,4 +42,3 @@ def cfg_get(cfg: Dict[str, Any], dotted: str, default: Any = None) -> Any:
             return default
         cur = cur[part]
     return cur
-

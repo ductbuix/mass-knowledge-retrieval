@@ -42,7 +42,9 @@ def _http_get_json(url: str, headers: Dict[str, str]) -> Dict:
             data = resp.read()
             return json.loads(data.decode("utf-8"))
     except error.HTTPError as e:
-        raise RuntimeError(f"HTTP {e.code} for {url}: {e.read().decode('utf-8', 'ignore')}")
+        raise RuntimeError(
+            f"HTTP {e.code} for {url}: {e.read().decode('utf-8', 'ignore')}"
+        )
 
 
 def _build_api_base(host: str) -> str:
@@ -144,6 +146,7 @@ def ingest_confluence_url(
 
     return path
 
+
 def _page_url(base: str, item: Dict) -> Optional[str]:
     links = item.get("_links") or {}
     if not links:
@@ -229,7 +232,9 @@ def ingest_confluence(
         storage = ((item.get("body") or {}).get("storage") or {}).get("value") or ""
 
         md = html_to_markdown(storage)
-        fetched_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat() + "Z"
+        fetched_at = (
+            dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat() + "Z"
+        )
 
         slug = _slugify(title)
         fname = f"{slug}-{page_id}.md"
